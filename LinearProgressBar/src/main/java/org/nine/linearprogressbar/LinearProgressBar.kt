@@ -19,7 +19,7 @@ class LinearProgressBar : View {
     private var mProgress = 0
     private var mBackground = Color.GRAY
     private var mProgressColor = Color.CYAN
-    private var mTextColor = Color.BLACK
+    private var mTextColor = Color.WHITE
     private var mTextSize = 40f
 
     private var mWidth = 0
@@ -49,7 +49,8 @@ class LinearProgressBar : View {
         mBackground = a.getColor(R.styleable.LinearProgressBar_progressBackgroundColor, mBackground)
         mTextColor = a.getColor(R.styleable.LinearProgressBar_textColor, mTextColor)
         mTextSize =
-            a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt()).toFloat()
+            a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt())
+                .toFloat()
 
         a.recycle()
     }
@@ -59,13 +60,15 @@ class LinearProgressBar : View {
         attrs,
         defStyleAttr
     ) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.LinearProgressBar, defStyleAttr, 0)
+        val a =
+            context.obtainStyledAttributes(attrs, R.styleable.LinearProgressBar, defStyleAttr, 0)
 
         mProgressColor = a.getColor(R.styleable.LinearProgressBar_progressColor, mProgressColor)
         mBackground = a.getColor(R.styleable.LinearProgressBar_progressBackgroundColor, mBackground)
         mTextColor = a.getColor(R.styleable.LinearProgressBar_textColor, mTextColor)
         mTextSize =
-            a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt()).toFloat()
+            a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt())
+                .toFloat()
 
         a.recycle()
     }
@@ -81,10 +84,11 @@ class LinearProgressBar : View {
         progressRect = RectF(0f, 0f, (mProgress * mWidth) / 100f, 25f)
         backgroundRect = RectF(0f, 0f, mWidth.toFloat(), 25f)
 
-        setProgress()
+        setProgress(mProgress)
     }
 
-    fun setProgress() {
+    fun setProgress(progress: Int) {
+        mProgress = progress
         val to = (mProgress * mWidth) / 100f
         val animator = ValueAnimator.ofFloat(progressRect.right, to)
         animator.duration = 2000
@@ -114,9 +118,17 @@ class LinearProgressBar : View {
 
         textPaint.getTextBounds(text, 0, text.length, textBound)
         textBound.height()
+
+        val x = if (progressRect.right < textBound.width()) {
+            (textBound.width() / 10)
+        } else if (progressRect.right > mWidth - textBound.width()) {
+            mWidth - textBound.width() - (textBound.width() / 10)
+        } else {
+            progressRect.right - (textBound.width() / 2)
+        }
         canvas.drawText(
             text.toInt().toString(),
-            progressRect.right - (textBound.width() / 2),
+            x.toFloat(),
             (backgroundRect.bottom.toInt()) + textBound.height() * 2f,
             textPaint
         )

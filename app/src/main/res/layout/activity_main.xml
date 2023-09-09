@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <org.nine.linearprogressbar.LinearProgressBar
+        android:id="@+id/pb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -17,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:progressBackgroundColor="@color/cardview_dark_background"
         app:progressColor="@color/design_default_color_secondary"
-        app:progressValue="50"
+        app:progressValue="20"
         app:textColor="@color/black"
         app:textSize="16sp" />
 
