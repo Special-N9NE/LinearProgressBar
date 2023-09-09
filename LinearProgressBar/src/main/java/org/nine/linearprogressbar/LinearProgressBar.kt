@@ -104,6 +104,37 @@ class LinearProgressBar : View {
         animator.start()
     }
 
+    fun setProgressBackgroundColor(color: Int) {
+        mBackground = color
+        init()
+    }
+
+    fun setProgressColor(color: Int) {
+        mProgressColor = color
+        init()
+    }
+
+    fun setTextColor(color: Int) {
+        mTextColor = color
+        init()
+    }
+
+    fun getProgress(): Int {
+        return mProgress
+    }
+
+    fun getProgressBackgroundColor(): Int {
+        return mBackground
+    }
+
+    fun getProgressColor(): Int {
+        return mProgressColor
+    }
+
+    fun getTextColor(): Int {
+        return mTextColor
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawRoundRect(
