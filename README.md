@@ -15,7 +15,7 @@ a linear progress bar with a text indicator.
 ```
 ## Installation
 
-1- Download [this aar file](https://github.com/Special-N9NE/LinearProgressBar/blob/master/LinearProgressBar-debug.aar)
+1- Download [this aar file](https://raw.githubusercontent.com/Special-N9NE/LinearProgressBar/master/LinearProgressBar-debug.aar)
 
 2- Go to File -> Project Structure -> Dependencies
 
