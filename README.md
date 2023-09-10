@@ -13,15 +13,17 @@ A Linear Progress bar with a text indicator with built-in animation.
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="16dp"
-    
-    app:progressBackgroundColor="@color/gray"
-    app:progressColor="@color/yellow"
-    app:progressHeight="20dp"
+
+    app:animationDuration="1000"
+    app:font="@font/iran_sans_fa_num"
+    app:progressBackgroundColor="#9F9595"
+    app:progressColor="@color/design_default_color_secondary"
+    app:progressHeight="8dp"
     app:progressValue="20"
     app:radius="10dp"
     app:textColor="@color/black"
     app:textSize="16sp"
-    app:animationDuration="1000" />
+    app:textVisibility="visible" />
 
 ```
 ## Installation

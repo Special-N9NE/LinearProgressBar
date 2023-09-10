@@ -7,8 +7,13 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Typeface
+import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import kotlin.math.roundToInt
 
 
@@ -24,26 +29,20 @@ class LinearProgressBar : View {
     private var mProgressHeight = 25f
     private var mRadius = 20f
     private var mDuration = 2000
+    private var mTextVisibility = VISIBLE
+    private var mFontFamily = 0
 
     private var mWidth = 0
     private var progressRect = RectF()
     private var backgroundRect = RectF()
 
-    private val paint = Paint().apply {
-        color = mProgressColor
-        style = Paint.Style.FILL
-    }
-    private val paintBackground = Paint().apply {
-        color = mBackground
-        style = Paint.Style.FILL
-    }
-    private val textPaint = Paint().apply {
-        color = mTextColor
-        textSize = 40f
-    }
+    private val paint = Paint()
+    private val paintBackground = Paint()
+    private val textPaint = Paint()
 
     constructor(context: Context) : super(context)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         val a = context.obtainStyledAttributes(attrs, R.styleable.LinearProgressBar)
         mProgress = a.getInt(R.styleable.LinearProgressBar_progressValue, 0)
@@ -54,25 +53,22 @@ class LinearProgressBar : View {
         mTextSize =
             a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt())
                 .toFloat()
-        mProgressHeight =
-            a.getDimensionPixelSize(
-                R.styleable.LinearProgressBar_progressHeight,
-                mProgressHeight.toInt()
-            ).toFloat()
-        mRadius =
-            a.getDimensionPixelSize(
-                R.styleable.LinearProgressBar_radius,
-                mRadius.toInt()
-            ).toFloat()
+        mProgressHeight = a.getDimensionPixelSize(
+            R.styleable.LinearProgressBar_progressHeight, mProgressHeight.toInt()
+        ).toFloat()
+        mRadius = a.getDimensionPixelSize(
+            R.styleable.LinearProgressBar_radius, mRadius.toInt()
+        ).toFloat()
         mDuration = a.getInt(R.styleable.LinearProgressBar_animationDuration, mDuration)
+        mTextVisibility = a.getInt(R.styleable.LinearProgressBar_textVisibility, mTextVisibility)
+        mFontFamily = a.getResourceId(R.styleable.LinearProgressBar_font, 0)
 
         a.recycle()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
+        context, attrs, defStyleAttr
     ) {
         val a =
             context.obtainStyledAttributes(attrs, R.styleable.LinearProgressBar, defStyleAttr, 0)
@@ -83,27 +79,43 @@ class LinearProgressBar : View {
         mTextSize =
             a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt())
                 .toFloat()
-        mProgressHeight =
-            a.getDimensionPixelSize(
-                R.styleable.LinearProgressBar_progressHeight,
-                mProgressHeight.toInt()
-            ).toFloat()
-        mRadius =
-            a.getDimensionPixelSize(
-                R.styleable.LinearProgressBar_radius,
-                mRadius.toInt()
-            ).toFloat()
+        mProgressHeight = a.getDimensionPixelSize(
+            R.styleable.LinearProgressBar_progressHeight, mProgressHeight.toInt()
+        ).toFloat()
+        mRadius = a.getDimensionPixelSize(
+            R.styleable.LinearProgressBar_radius, mRadius.toInt()
+        ).toFloat()
         mDuration = a.getInt(R.styleable.LinearProgressBar_animationDuration, mDuration)
+        mTextVisibility = a.getInt(R.styleable.LinearProgressBar_textVisibility, mTextVisibility)
+        mFontFamily = a.getResourceId(R.styleable.LinearProgressBar_font, 0)
 
         a.recycle()
     }
 
     private fun init() {
-        paint.color = mProgressColor
-        paintBackground.color = mBackground
+        paint.apply {
+            color = mProgressColor
+            style = Paint.Style.FILL
+        }
+
+        paintBackground.apply {
+            color = mBackground
+            style = Paint.Style.FILL
+        }
+
         textPaint.apply {
             color = mTextColor
             textSize = mTextSize
+            if (mFontFamily != 0) {
+                try {
+                    val tp = ResourcesCompat.getFont(context, mFontFamily)
+                    this.typeface = Typeface.create(tp, Typeface.NORMAL)
+                } catch (e: Exception) {
+                    Log.e("LinearProgressBar", e.message.toString())
+                    e.printStackTrace()
+                    throw e
+                }
+            }
         }
 
         progressRect = RectF(0f, 0f, (mProgress * mWidth) / 100f, mProgressHeight)
@@ -144,8 +156,24 @@ class LinearProgressBar : View {
         init()
     }
 
-    fun setAnimationDuration(duration : Int) {
+    fun setAnimationDuration(duration: Int) {
         mDuration = duration
+    }
+
+    fun setTextVisibility(visibility: Int) {
+        if (visibility in listOf(VISIBLE, INVISIBLE, GONE)) mTextVisibility = visibility
+    }
+
+    fun setFont(resourceId: Int) {
+        try {
+            ResourcesCompat.getFont(context, resourceId)
+            mFontFamily = resourceId
+            init()
+        } catch (e: Exception) {
+            Log.e("LinearProgressBar", e.message.toString())
+            e.printStackTrace()
+            throw e
+        }
     }
 
     fun getProgress(): Int {
@@ -171,11 +199,18 @@ class LinearProgressBar : View {
     fun getRadius(): Float {
         return mRadius
     }
+
     fun getAnimationDuration(): Int {
         return mDuration
     }
+
+    fun getTextVisibility(): Int {
+        return mTextVisibility
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
         canvas.drawRoundRect(
             backgroundRect, mRadius, mRadius, paintBackground
         )
@@ -196,12 +231,14 @@ class LinearProgressBar : View {
         } else {
             progressRect.right - (textBound.width() / 2)
         }
-        canvas.drawText(
-            text.toInt().toString(),
-            x.toFloat(),
-            (backgroundRect.bottom.toInt()) + textBound.height() * 2f,
-            textPaint
-        )
+        if (mTextVisibility == VISIBLE) {
+            canvas.drawText(
+                text.toInt().toString(),
+                x.toFloat(),
+                (backgroundRect.bottom.toInt()) + textBound.height() * 2f,
+                textPaint
+            )
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -215,8 +252,10 @@ class LinearProgressBar : View {
 
         textPaint.getTextBounds("H", 0, 1, textBound)
 
-        val desiredHeight =
-            (backgroundRect.bottom.toInt()) + textBound.height() * 3
+        val boundHeight = if (mTextVisibility == GONE) 0
+        else textBound.height()
+
+        val desiredHeight = (backgroundRect.bottom.toInt()) + boundHeight * 3
         val desiredWidth = backgroundRect.right.toInt()
 
         mWidth = when (widthMode) {

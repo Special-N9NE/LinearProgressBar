@@ -8,6 +8,12 @@
     <attr name="progressHeight" format="dimension" />
     <attr name="radius" format="dimension" />
     <attr name="animationDuration" format="integer" />
+    <attr name="textVisibility" format="enum">
+        <enum name="gone" value="8" />
+        <enum name="invisible" value="4" />
+        <enum name="visible" value="0" />
+    </attr>
+    <attr name="font" format="reference" />
 
     <declare-styleable name="LinearProgressBar">
         <attr name="progressValue" />
@@ -17,6 +23,8 @@
         <attr name="textColor" />
         <attr name="progressHeight" />
         <attr name="radius" />
-        <attr name="animationDuration"/>
+        <attr name="animationDuration" />
+        <attr name="textVisibility" />
+        <attr name="font" />
     </declare-styleable>
 </resources>
