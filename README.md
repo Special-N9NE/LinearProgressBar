@@ -20,7 +20,8 @@ A Linear Progress bar with a text indicator with built-in animation.
     app:progressValue="20"
     app:radius="10dp"
     app:textColor="@color/black"
-    app:textSize="16sp" />
+    app:textSize="16sp"
+    app:animationDuration="1000" />
 
 ```
 ## Installation
