@@ -7,6 +7,7 @@
     <attr name="textSize" format="dimension" />
     <attr name="progressHeight" format="dimension" />
     <attr name="radius" format="dimension" />
+    <attr name="animationDuration" format="integer" />
 
     <declare-styleable name="LinearProgressBar">
         <attr name="progressValue" />
@@ -16,5 +17,6 @@
         <attr name="textColor" />
         <attr name="progressHeight" />
         <attr name="radius" />
+        <attr name="animationDuration"/>
     </declare-styleable>
 </resources>

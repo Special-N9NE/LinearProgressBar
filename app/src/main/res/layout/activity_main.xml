@@ -19,6 +19,7 @@
         app:progressValue="20"
         app:radius="10dp"
         app:textColor="@color/black"
-        app:textSize="16sp" />
+        app:textSize="16sp"
+        app:animationDuration="1000"/>
 
 </FrameLayout>

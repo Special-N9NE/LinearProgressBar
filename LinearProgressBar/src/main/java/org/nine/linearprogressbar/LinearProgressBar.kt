@@ -22,7 +22,8 @@ class LinearProgressBar : View {
     private var mTextColor = Color.WHITE
     private var mTextSize = 40f
     private var mProgressHeight = 25f
-    var mRadius = 20f
+    private var mRadius = 20f
+    private var mDuration = 2000
 
     private var mWidth = 0
     private var progressRect = RectF()
@@ -63,6 +64,7 @@ class LinearProgressBar : View {
                 R.styleable.LinearProgressBar_radius,
                 mRadius.toInt()
             ).toFloat()
+        mDuration = a.getInt(R.styleable.LinearProgressBar_animationDuration, mDuration)
 
         a.recycle()
     }
@@ -91,6 +93,7 @@ class LinearProgressBar : View {
                 R.styleable.LinearProgressBar_radius,
                 mRadius.toInt()
             ).toFloat()
+        mDuration = a.getInt(R.styleable.LinearProgressBar_animationDuration, mDuration)
 
         a.recycle()
     }
@@ -113,7 +116,7 @@ class LinearProgressBar : View {
         mProgress = progress
         val to = (mProgress * mWidth) / 100f
         val animator = ValueAnimator.ofFloat(progressRect.right, to)
-        animator.duration = 2000
+        animator.duration = mDuration.toLong()
         animator.addUpdateListener {
             progressRect = RectF(
                 progressRect.left,
@@ -141,6 +144,10 @@ class LinearProgressBar : View {
         init()
     }
 
+    fun setAnimationDuration(duration : Int) {
+        mDuration = duration
+    }
+
     fun getProgress(): Int {
         return mProgress
     }
@@ -164,7 +171,9 @@ class LinearProgressBar : View {
     fun getRadius(): Float {
         return mRadius
     }
-
+    fun getAnimationDuration(): Int {
+        return mDuration
+    }
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawRoundRect(
