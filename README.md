@@ -1,6 +1,9 @@
 # LinearProgressBar
 A Linear Progress bar with a text indicator with built-in animation.
 
+![Screenshot 1](https://github.com/Special-N9NE/LinearProgressBar/blob/master/sample.gif)
+
+
 ## Usage 
 
 ```XML
