@@ -21,6 +21,8 @@ class LinearProgressBar : View {
     private var mProgressColor = Color.CYAN
     private var mTextColor = Color.WHITE
     private var mTextSize = 40f
+    private var mProgressHeight = 25f
+    var mRadius = 20f
 
     private var mWidth = 0
     private var progressRect = RectF()
@@ -51,6 +53,16 @@ class LinearProgressBar : View {
         mTextSize =
             a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt())
                 .toFloat()
+        mProgressHeight =
+            a.getDimensionPixelSize(
+                R.styleable.LinearProgressBar_progressHeight,
+                mProgressHeight.toInt()
+            ).toFloat()
+        mRadius =
+            a.getDimensionPixelSize(
+                R.styleable.LinearProgressBar_radius,
+                mRadius.toInt()
+            ).toFloat()
 
         a.recycle()
     }
@@ -69,6 +81,16 @@ class LinearProgressBar : View {
         mTextSize =
             a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt())
                 .toFloat()
+        mProgressHeight =
+            a.getDimensionPixelSize(
+                R.styleable.LinearProgressBar_progressHeight,
+                mProgressHeight.toInt()
+            ).toFloat()
+        mRadius =
+            a.getDimensionPixelSize(
+                R.styleable.LinearProgressBar_radius,
+                mRadius.toInt()
+            ).toFloat()
 
         a.recycle()
     }
@@ -81,8 +103,8 @@ class LinearProgressBar : View {
             textSize = mTextSize
         }
 
-        progressRect = RectF(0f, 0f, (mProgress * mWidth) / 100f, 25f)
-        backgroundRect = RectF(0f, 0f, mWidth.toFloat(), 25f)
+        progressRect = RectF(0f, 0f, (mProgress * mWidth) / 100f, mProgressHeight)
+        backgroundRect = RectF(0f, 0f, mWidth.toFloat(), mProgressHeight)
 
         setProgress(mProgress)
     }
@@ -135,13 +157,21 @@ class LinearProgressBar : View {
         return mTextColor
     }
 
+    fun getProgressHeight(): Float {
+        return mProgressHeight
+    }
+
+    fun getRadius(): Float {
+        return mRadius
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.drawRoundRect(
-            backgroundRect, 20f, 20f, paintBackground
+            backgroundRect, mRadius, mRadius, paintBackground
         )
         canvas.drawRoundRect(
-            progressRect, 20f, 20f, paint
+            progressRect, mRadius, mRadius, paint
         )
 
         var text = (progressRect.right * 100 / mWidth).toString()

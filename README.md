@@ -1,17 +1,24 @@
 # LinearProgressBar
-a linear progress bar with a text indicator.
+A Linear Progress bar with a text indicator with built-in animation.
 
 ## Usage 
 
 ```XML
 <org.nine.linearprogressbar.LinearProgressBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:textColor="@color/black"
-        app:textSize="16sp"
-        app:progressColor="@color/yellow"
-        app:progressBackgroundColor="@color/gray"
-        app:progressValue="50" />
+    android:id="@+id/pb"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="16dp"
+    
+    app:progressBackgroundColor="@color/gray"
+    app:progressColor="@color/yellow"
+    app:progressHeight="20dp"
+    app:progressValue="20"
+    app:radius="10dp"
+    app:textColor="@color/black"
+    app:textSize="16sp" />
+
 ```
 ## Installation
 
