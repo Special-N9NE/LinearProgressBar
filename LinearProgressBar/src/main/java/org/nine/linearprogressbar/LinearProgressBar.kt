@@ -7,9 +7,12 @@ import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Shader
+import android.graphics.Typeface
 import android.os.Build
 import android.util.AttributeSet
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.res.ResourcesCompat
 import kotlin.math.roundToInt
 
 
@@ -31,6 +34,24 @@ class LinearProgressBar : BaseProgressBar {
     }
 
     private fun init() {
+        paintBackground.apply {
+            color = mBackground
+            style = Paint.Style.FILL
+        }
+        textPaint.apply {
+            color = mTextColor
+            textSize = mTextSize
+            if (mFontFamily != 0) {
+                try {
+                    val tp = ResourcesCompat.getFont(context, mFontFamily)
+                    this.typeface = Typeface.create(tp, Typeface.NORMAL)
+                } catch (e: Exception) {
+                    Log.e("LinearVerticalProgressBar", e.message.toString())
+                    e.printStackTrace()
+                    throw e
+                }
+            }
+        }
         if (mGradient) {
             paint.apply {
                 shader = LinearGradient(

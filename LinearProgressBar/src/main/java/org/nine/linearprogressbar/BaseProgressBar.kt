@@ -128,38 +128,17 @@ open class BaseProgressBar : View , InitListener{
     }
     fun setProgressBackgroundColor(color: Int) {
         mBackground = color
-        init()
-    }
-    private fun init(){
-        paintBackground.apply {
-            color = mBackground
-            style = Paint.Style.FILL
-        }
-        textPaint.apply {
-            color = mTextColor
-            textSize = mTextSize
-            if (mFontFamily != 0) {
-                try {
-                    val tp = ResourcesCompat.getFont(context, mFontFamily)
-                    this.typeface = Typeface.create(tp, Typeface.NORMAL)
-                } catch (e: Exception) {
-                    Log.e("LinearVerticalProgressBar", e.message.toString())
-                    e.printStackTrace()
-                    throw e
-                }
-            }
-        }
         this.callInit()
     }
 
     fun setProgressColor(color: Int) {
         mProgressColor = color
-        init()
+        this.callInit()
     }
 
     fun setTextColor(color: Int) {
         mTextColor = color
-        init()
+        this.callInit()
     }
 
     fun setAnimationDuration(duration: Int) {
@@ -174,7 +153,7 @@ open class BaseProgressBar : View , InitListener{
         try {
             ResourcesCompat.getFont(context, resourceId)
             mFontFamily = resourceId
-            init()
+            this.callInit()
         } catch (e: Exception) {
             Log.e("LinearProgressBar", e.message.toString())
             e.printStackTrace()
