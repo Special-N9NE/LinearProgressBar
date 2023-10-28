@@ -4,9 +4,11 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.LinearGradient
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Shader
 import android.graphics.Typeface
 import android.os.Build
 import android.util.AttributeSet
@@ -24,6 +26,9 @@ class LinearProgressBar : View {
     private var mProgress = 0
     private var mBackground = Color.GRAY
     private var mProgressColor = Color.CYAN
+    private var mGradient = false
+    private var mGradientStartColor = Color.CYAN
+    private var mGradientEndColor = Color.CYAN
     private var mTextColor = Color.WHITE
     private var mTextSize = 40f
     private var mProgressHeight = 25f
@@ -62,6 +67,11 @@ class LinearProgressBar : View {
         mDuration = a.getInt(R.styleable.LinearProgressBar_animationDuration, mDuration)
         mTextVisibility = a.getInt(R.styleable.LinearProgressBar_textVisibility, mTextVisibility)
         mFontFamily = a.getResourceId(R.styleable.LinearProgressBar_font, 0)
+        mGradient = a.getBoolean(R.styleable.LinearProgressBar_gradient, false)
+        mGradientStartColor =
+            a.getColor(R.styleable.LinearProgressBar_gradientStartColor, mGradientStartColor)
+        mGradientEndColor =
+            a.getColor(R.styleable.LinearProgressBar_gradientEndColor, mGradientEndColor)
 
         a.recycle()
     }
@@ -88,14 +98,33 @@ class LinearProgressBar : View {
         mDuration = a.getInt(R.styleable.LinearProgressBar_animationDuration, mDuration)
         mTextVisibility = a.getInt(R.styleable.LinearProgressBar_textVisibility, mTextVisibility)
         mFontFamily = a.getResourceId(R.styleable.LinearProgressBar_font, 0)
+        mGradient = a.getBoolean(R.styleable.LinearProgressBar_gradient, false)
+        mGradientStartColor =
+            a.getColor(R.styleable.LinearProgressBar_gradientStartColor, mGradientStartColor)
+        mGradientEndColor =
+            a.getColor(R.styleable.LinearProgressBar_gradientEndColor, mGradientEndColor)
 
         a.recycle()
     }
 
     private fun init() {
-        paint.apply {
-            color = mProgressColor
-            style = Paint.Style.FILL
+        if (mGradient) {
+            paint.apply {
+                shader = LinearGradient(
+                    0f,
+                    0f,
+                    mWidth.toFloat(),
+                    0f,
+                    mGradientStartColor,
+                    mGradientEndColor,
+                    Shader.TileMode.CLAMP
+                )
+            }
+        } else {
+            paint.apply {
+                color = mProgressColor
+                style = Paint.Style.FILL
+            }
         }
 
         paintBackground.apply {

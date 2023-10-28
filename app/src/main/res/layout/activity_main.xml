@@ -18,10 +18,14 @@
         app:progressBackgroundColor="#9F9595"
         app:progressColor="@color/design_default_color_secondary"
         app:progressHeight="8dp"
-        app:progressValue="20"
+        app:progressValue="50"
         app:radius="10dp"
         app:textColor="@color/black"
         app:textSize="16sp"
-        app:textVisibility="visible" />
+        app:textVisibility="visible"
+        app:gradient="true"
+        app:gradientStartColor="#2196F3"
+        app:gradientEndColor="#FFC107"
+        />
 
 </FrameLayout>

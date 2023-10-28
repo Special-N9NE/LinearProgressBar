@@ -23,7 +23,11 @@ A Linear Progress bar with a text indicator with built-in animation.
     app:radius="10dp"
     app:textColor="@color/black"
     app:textSize="16sp"
-    app:textVisibility="visible" />
+    app:textVisibility="visible"
+    app:gradient="true"
+    app:gradientStartColor="#2196F3"
+    app:gradientEndColor="#FFC107"
+/>
 
 ```
 ## Installation

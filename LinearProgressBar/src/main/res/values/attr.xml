@@ -14,6 +14,9 @@
         <enum name="visible" value="0" />
     </attr>
     <attr name="font" format="reference" />
+    <attr name="gradient" format="boolean" />
+    <attr name="gradientStartColor" format="color" />
+    <attr name="gradientEndColor" format="color" />
 
     <declare-styleable name="LinearProgressBar">
         <attr name="progressValue" />
@@ -26,5 +29,8 @@
         <attr name="animationDuration" />
         <attr name="textVisibility" />
         <attr name="font" />
+        <attr name="gradient" />
+        <attr name="gradientStartColor" />
+        <attr name="gradientEndColor" />
     </declare-styleable>
 </resources>
