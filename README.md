@@ -16,23 +16,26 @@ A Linear Progress bar with a text indicator with built-in animation.
 
     app:animationDuration="1000"
     app:font="@font/iran_sans_fa_num"
+    app:gradient="true"
+    app:gradientEndColor="#FFC107"
+    app:gradientStartColor="#2196F3"
     app:progressBackgroundColor="#9F9595"
     app:progressColor="@color/design_default_color_secondary"
-    app:progressHeight="8dp"
-    app:progressValue="20"
+    app:progressValue="50"
     app:radius="10dp"
     app:textColor="@color/black"
     app:textSize="16sp"
     app:textVisibility="visible"
-    app:gradient="true"
-    app:gradientStartColor="#2196F3"
-    app:gradientEndColor="#FFC107"
+    app:thickness="8dp"
 />
-
 ```
+
+Also there is a View called 'LinearVerticalProgressBar' which you can use it if you want a vertical ProgressBar
+
+
 ## Installation
 
-1- Download [this aar file](https://raw.githubusercontent.com/Special-N9NE/LinearProgressBar/master/LinearProgressBar-debug.aar)
+1- Download [this aar file](https://raw.githubusercontent.com/Special-N9NE/LinearProgressBar/master/LinearProgressBar.aar)
 
 2- Go to File -> Project Structure -> Dependencies
 

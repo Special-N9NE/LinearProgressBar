@@ -19,7 +19,7 @@ import androidx.core.content.res.ResourcesCompat
 import kotlin.math.roundToInt
 
 
-class LinearProgressBar : View {
+class LinearVerticalProgressBar : View {
 
     private val textBound = Rect()
 
@@ -37,7 +37,7 @@ class LinearProgressBar : View {
     private var mTextVisibility = VISIBLE
     private var mFontFamily = 0
 
-    private var mWidth = 0
+    private var mHeight = 0
     private var progressRect = RectF()
     private var backgroundRect = RectF()
 
@@ -49,29 +49,38 @@ class LinearProgressBar : View {
 
     @RequiresApi(Build.VERSION_CODES.O)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.LinearProgressBar)
-        mProgress = a.getInt(R.styleable.LinearProgressBar_progressValue, 0)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.LinearVerticalProgressBar)
+        mProgress = a.getInt(R.styleable.LinearVerticalProgressBar_progressValue, 0)
 
-        mProgressColor = a.getColor(R.styleable.LinearProgressBar_progressColor, mProgressColor)
-        mBackground = a.getColor(R.styleable.LinearProgressBar_progressBackgroundColor, mBackground)
-        mTextColor = a.getColor(R.styleable.LinearProgressBar_textColor, mTextColor)
+        mProgressColor =
+            a.getColor(R.styleable.LinearVerticalProgressBar_progressColor, mProgressColor)
+        mBackground =
+            a.getColor(R.styleable.LinearVerticalProgressBar_progressBackgroundColor, mBackground)
+        mTextColor = a.getColor(R.styleable.LinearVerticalProgressBar_textColor, mTextColor)
         mTextSize =
-            a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt())
+            a.getDimensionPixelSize(
+                R.styleable.LinearVerticalProgressBar_textSize,
+                mTextSize.toInt()
+            )
                 .toFloat()
         mThickness = a.getDimensionPixelSize(
-            R.styleable.LinearProgressBar_thickness, mThickness.toInt()
+            R.styleable.LinearVerticalProgressBar_thickness, mThickness.toInt()
         ).toFloat()
         mRadius = a.getDimensionPixelSize(
-            R.styleable.LinearProgressBar_radius, mRadius.toInt()
+            R.styleable.LinearVerticalProgressBar_radius, mRadius.toInt()
         ).toFloat()
-        mDuration = a.getInt(R.styleable.LinearProgressBar_animationDuration, mDuration)
-        mTextVisibility = a.getInt(R.styleable.LinearProgressBar_textVisibility, mTextVisibility)
-        mFontFamily = a.getResourceId(R.styleable.LinearProgressBar_font, 0)
-        mGradient = a.getBoolean(R.styleable.LinearProgressBar_gradient, false)
+        mDuration = a.getInt(R.styleable.LinearVerticalProgressBar_animationDuration, mDuration)
+        mTextVisibility =
+            a.getInt(R.styleable.LinearVerticalProgressBar_textVisibility, mTextVisibility)
+        mFontFamily = a.getResourceId(R.styleable.LinearVerticalProgressBar_font, 0)
+        mGradient = a.getBoolean(R.styleable.LinearVerticalProgressBar_gradient, false)
         mGradientStartColor =
-            a.getColor(R.styleable.LinearProgressBar_gradientStartColor, mGradientStartColor)
+            a.getColor(
+                R.styleable.LinearVerticalProgressBar_gradientStartColor,
+                mGradientStartColor
+            )
         mGradientEndColor =
-            a.getColor(R.styleable.LinearProgressBar_gradientEndColor, mGradientEndColor)
+            a.getColor(R.styleable.LinearVerticalProgressBar_gradientEndColor, mGradientEndColor)
 
         a.recycle()
     }
@@ -81,28 +90,42 @@ class LinearProgressBar : View {
         context, attrs, defStyleAttr
     ) {
         val a =
-            context.obtainStyledAttributes(attrs, R.styleable.LinearProgressBar, defStyleAttr, 0)
+            context.obtainStyledAttributes(
+                attrs,
+                R.styleable.LinearVerticalProgressBar,
+                defStyleAttr,
+                0
+            )
 
-        mProgressColor = a.getColor(R.styleable.LinearProgressBar_progressColor, mProgressColor)
-        mBackground = a.getColor(R.styleable.LinearProgressBar_progressBackgroundColor, mBackground)
-        mTextColor = a.getColor(R.styleable.LinearProgressBar_textColor, mTextColor)
+        mProgressColor =
+            a.getColor(R.styleable.LinearVerticalProgressBar_progressColor, mProgressColor)
+        mBackground =
+            a.getColor(R.styleable.LinearVerticalProgressBar_progressBackgroundColor, mBackground)
+        mTextColor = a.getColor(R.styleable.LinearVerticalProgressBar_textColor, mTextColor)
         mTextSize =
-            a.getDimensionPixelSize(R.styleable.LinearProgressBar_textSize, mTextSize.toInt())
+            a.getDimensionPixelSize(
+                R.styleable.LinearVerticalProgressBar_textSize,
+                mTextSize.toInt()
+            )
                 .toFloat()
         mThickness = a.getDimensionPixelSize(
-            R.styleable.LinearProgressBar_thickness, mThickness.toInt()
+            R.styleable.LinearVerticalProgressBar_thickness, mThickness.toInt()
         ).toFloat()
         mRadius = a.getDimensionPixelSize(
-            R.styleable.LinearProgressBar_radius, mRadius.toInt()
+            R.styleable.LinearVerticalProgressBar_radius, mRadius.toInt()
         ).toFloat()
-        mDuration = a.getInt(R.styleable.LinearProgressBar_animationDuration, mDuration)
-        mTextVisibility = a.getInt(R.styleable.LinearProgressBar_textVisibility, mTextVisibility)
-        mFontFamily = a.getResourceId(R.styleable.LinearProgressBar_font, 0)
-        mGradient = a.getBoolean(R.styleable.LinearProgressBar_gradient, false)
+        mDuration = a.getInt(R.styleable.LinearVerticalProgressBar_animationDuration, mDuration)
+        mTextVisibility =
+            a.getInt(R.styleable.LinearVerticalProgressBar_textVisibility, mTextVisibility)
+        mFontFamily = a.getResourceId(R.styleable.LinearVerticalProgressBar_font, 0)
+        mGradient = a.getBoolean(R.styleable.LinearVerticalProgressBar_gradient, false)
         mGradientStartColor =
-            a.getColor(R.styleable.LinearProgressBar_gradientStartColor, mGradientStartColor)
+            a.getColor(
+                R.styleable.LinearVerticalProgressBar_gradientStartColor,
+                mGradientStartColor
+            )
         mGradientEndColor =
-            a.getColor(R.styleable.LinearProgressBar_gradientEndColor, mGradientEndColor)
+            a.getColor(R.styleable.LinearVerticalProgressBar_gradientEndColor, mGradientEndColor)
 
         a.recycle()
     }
@@ -113,8 +136,8 @@ class LinearProgressBar : View {
                 shader = LinearGradient(
                     0f,
                     0f,
-                    mWidth.toFloat(),
                     0f,
+                    mHeight.toFloat(),
                     mGradientStartColor,
                     mGradientEndColor,
                     Shader.TileMode.CLAMP
@@ -140,29 +163,30 @@ class LinearProgressBar : View {
                     val tp = ResourcesCompat.getFont(context, mFontFamily)
                     this.typeface = Typeface.create(tp, Typeface.NORMAL)
                 } catch (e: Exception) {
-                    Log.e("LinearProgressBar", e.message.toString())
+                    Log.e("LinearVerticalProgressBar", e.message.toString())
                     e.printStackTrace()
                     throw e
                 }
             }
         }
 
-        progressRect = RectF(0f, 0f, (mProgress * mWidth) / 100f, mThickness)
-        backgroundRect = RectF(0f, 0f, mWidth.toFloat(), mThickness)
+        progressRect =
+            RectF(0f, (mHeight - ((mProgress * mHeight) / 100f)), mThickness, mHeight.toFloat())
+        backgroundRect = RectF(0f, 0f, mThickness, mHeight.toFloat())
 
         setProgress(mProgress)
     }
 
     fun setProgress(progress: Int) {
         mProgress = progress
-        val to = (mProgress * mWidth) / 100f
-        val animator = ValueAnimator.ofFloat(progressRect.right, to)
+        val to = (mHeight - ((mProgress * mHeight) / 100f))
+        val animator = ValueAnimator.ofFloat(progressRect.bottom, to)
         animator.duration = mDuration.toLong()
         animator.addUpdateListener {
             progressRect = RectF(
                 progressRect.left,
-                progressRect.top,
                 it.animatedValue.toString().toFloat(),
+                progressRect.right,
                 progressRect.bottom
             )
             invalidate()
@@ -199,7 +223,7 @@ class LinearProgressBar : View {
             mFontFamily = resourceId
             init()
         } catch (e: Exception) {
-            Log.e("LinearProgressBar", e.message.toString())
+            Log.e("LinearVerticalProgressBar", e.message.toString())
             e.printStackTrace()
             throw e
         }
@@ -247,24 +271,22 @@ class LinearProgressBar : View {
             progressRect, mRadius, mRadius, paint
         )
 
-        var text = (progressRect.right * 100 / mWidth).toString()
+        var text = (100 - (progressRect.top * 100 / mHeight)).toString()
         text = text.toFloat().roundToInt().toString()
 
         textPaint.getTextBounds(text, 0, text.length, textBound)
-        textBound.height()
 
-        val x = if (progressRect.right < textBound.width()) {
-            (textBound.width() / 10)
-        } else if (progressRect.right > mWidth - textBound.width()) {
-            mWidth - textBound.width() - (textBound.width() / 10)
-        } else {
-            progressRect.right - (textBound.width() / 2)
-        }
+        val y = if (progressRect.bottom - progressRect.top < textBound.height()) {
+            ((progressRect.bottom - textBound.height() / 2))
+        } else if (backgroundRect.height() - progressRect.height() < textBound.height()) {
+            ((progressRect.top + textBound.height()))
+        } else progressRect.top + (textBound.height() / 2f)
+
         if (mTextVisibility == VISIBLE) {
             canvas.drawText(
                 text.toInt().toString(),
-                x.toFloat(),
-                (backgroundRect.bottom.toInt()) + textBound.height() * 2f,
+                (backgroundRect.right.toInt()).toFloat() + textBound.right / 2f,
+                y.toFloat(),
                 textPaint
             )
         }
@@ -281,32 +303,32 @@ class LinearProgressBar : View {
 
         textPaint.getTextBounds("H", 0, 1, textBound)
 
-        val boundHeight = if (mTextVisibility == GONE) 0
-        else textBound.height()
+        val boundHeight = if (mTextVisibility == GONE) 0 else textBound.height()
 
-        val desiredHeight = (backgroundRect.bottom.toInt()) + boundHeight * 3
-        val desiredWidth = backgroundRect.right.toInt()
 
-        mWidth = when (widthMode) {
+        val desiredHeight = backgroundRect.bottom.toInt()
+        val desiredWidth = (backgroundRect.right.toInt()) + boundHeight * 3
+
+        val width = when (widthMode) {
             MeasureSpec.EXACTLY -> {
                 widthSize
             }
 
             MeasureSpec.AT_MOST -> {
-                widthSize
+                desiredWidth.coerceAtMost(widthSize)
             }
 
             else -> {
                 desiredWidth
             }
         }
-        val height = when (heightMode) {
+        mHeight = when (heightMode) {
             MeasureSpec.EXACTLY -> {
                 heightSize
             }
 
             MeasureSpec.AT_MOST -> {
-                desiredHeight.coerceAtMost(heightSize)
+                desiredHeight
             }
 
             else -> {
@@ -315,7 +337,7 @@ class LinearProgressBar : View {
         }
 
         init()
-        setMeasuredDimension(mWidth, height)
+        setMeasuredDimension(width, mHeight)
 
     }
 }

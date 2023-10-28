@@ -5,7 +5,7 @@
     <attr name="progressBackgroundColor" format="color" />
     <attr name="textColor" format="color" />
     <attr name="textSize" format="dimension" />
-    <attr name="progressHeight" format="dimension" />
+    <attr name="thickness" format="dimension" />
     <attr name="radius" format="dimension" />
     <attr name="animationDuration" format="integer" />
     <attr name="textVisibility" format="enum">
@@ -24,7 +24,22 @@
         <attr name="progressBackgroundColor" />
         <attr name="textSize" />
         <attr name="textColor" />
-        <attr name="progressHeight" />
+        <attr name="thickness" />
+        <attr name="radius" />
+        <attr name="animationDuration" />
+        <attr name="textVisibility" />
+        <attr name="font" />
+        <attr name="gradient" />
+        <attr name="gradientStartColor" />
+        <attr name="gradientEndColor" />
+    </declare-styleable>
+    <declare-styleable name="LinearVerticalProgressBar">
+        <attr name="progressValue" />
+        <attr name="progressColor" />
+        <attr name="progressBackgroundColor" />
+        <attr name="textSize" />
+        <attr name="textColor" />
+        <attr name="thickness" />
         <attr name="radius" />
         <attr name="animationDuration" />
         <attr name="textVisibility" />
