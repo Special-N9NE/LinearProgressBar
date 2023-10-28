@@ -18,22 +18,7 @@
     <attr name="gradientStartColor" format="color" />
     <attr name="gradientEndColor" format="color" />
 
-    <declare-styleable name="LinearProgressBar">
-        <attr name="progressValue" />
-        <attr name="progressColor" />
-        <attr name="progressBackgroundColor" />
-        <attr name="textSize" />
-        <attr name="textColor" />
-        <attr name="thickness" />
-        <attr name="radius" />
-        <attr name="animationDuration" />
-        <attr name="textVisibility" />
-        <attr name="font" />
-        <attr name="gradient" />
-        <attr name="gradientStartColor" />
-        <attr name="gradientEndColor" />
-    </declare-styleable>
-    <declare-styleable name="LinearVerticalProgressBar">
+    <declare-styleable name="BaseProgressBar">
         <attr name="progressValue" />
         <attr name="progressColor" />
         <attr name="progressBackgroundColor" />

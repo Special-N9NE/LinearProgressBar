@@ -3,131 +3,33 @@ package org.nine.linearprogressbar
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Paint
-import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.Shader
-import android.graphics.Typeface
 import android.os.Build
 import android.util.AttributeSet
-import android.util.Log
-import android.view.View
 import androidx.annotation.RequiresApi
-import androidx.core.content.res.ResourcesCompat
 import kotlin.math.roundToInt
 
 
-class LinearVerticalProgressBar : View {
-
-    private val textBound = Rect()
-
-    private var mProgress = 0
-    private var mBackground = Color.GRAY
-    private var mProgressColor = Color.CYAN
-    private var mGradient = false
-    private var mGradientStartColor = Color.CYAN
-    private var mGradientEndColor = Color.CYAN
-    private var mTextColor = Color.WHITE
-    private var mTextSize = 40f
-    private var mThickness = 25f
-    private var mRadius = 20f
-    private var mDuration = 2000
-    private var mTextVisibility = VISIBLE
-    private var mFontFamily = 0
+class LinearVerticalProgressBar : BaseProgressBar {
 
     private var mHeight = 0
-    private var progressRect = RectF()
-    private var backgroundRect = RectF()
-
-    private val paint = Paint()
-    private val paintBackground = Paint()
-    private val textPaint = Paint()
 
     constructor(context: Context) : super(context)
 
     @RequiresApi(Build.VERSION_CODES.O)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.LinearVerticalProgressBar)
-        mProgress = a.getInt(R.styleable.LinearVerticalProgressBar_progressValue, 0)
-
-        mProgressColor =
-            a.getColor(R.styleable.LinearVerticalProgressBar_progressColor, mProgressColor)
-        mBackground =
-            a.getColor(R.styleable.LinearVerticalProgressBar_progressBackgroundColor, mBackground)
-        mTextColor = a.getColor(R.styleable.LinearVerticalProgressBar_textColor, mTextColor)
-        mTextSize =
-            a.getDimensionPixelSize(
-                R.styleable.LinearVerticalProgressBar_textSize,
-                mTextSize.toInt()
-            )
-                .toFloat()
-        mThickness = a.getDimensionPixelSize(
-            R.styleable.LinearVerticalProgressBar_thickness, mThickness.toInt()
-        ).toFloat()
-        mRadius = a.getDimensionPixelSize(
-            R.styleable.LinearVerticalProgressBar_radius, mRadius.toInt()
-        ).toFloat()
-        mDuration = a.getInt(R.styleable.LinearVerticalProgressBar_animationDuration, mDuration)
-        mTextVisibility =
-            a.getInt(R.styleable.LinearVerticalProgressBar_textVisibility, mTextVisibility)
-        mFontFamily = a.getResourceId(R.styleable.LinearVerticalProgressBar_font, 0)
-        mGradient = a.getBoolean(R.styleable.LinearVerticalProgressBar_gradient, false)
-        mGradientStartColor =
-            a.getColor(
-                R.styleable.LinearVerticalProgressBar_gradientStartColor,
-                mGradientStartColor
-            )
-        mGradientEndColor =
-            a.getColor(R.styleable.LinearVerticalProgressBar_gradientEndColor, mGradientEndColor)
-
-        a.recycle()
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     @RequiresApi(Build.VERSION_CODES.O)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context, attrs, defStyleAttr
-    ) {
-        val a =
-            context.obtainStyledAttributes(
-                attrs,
-                R.styleable.LinearVerticalProgressBar,
-                defStyleAttr,
-                0
-            )
+    )
 
-        mProgressColor =
-            a.getColor(R.styleable.LinearVerticalProgressBar_progressColor, mProgressColor)
-        mBackground =
-            a.getColor(R.styleable.LinearVerticalProgressBar_progressBackgroundColor, mBackground)
-        mTextColor = a.getColor(R.styleable.LinearVerticalProgressBar_textColor, mTextColor)
-        mTextSize =
-            a.getDimensionPixelSize(
-                R.styleable.LinearVerticalProgressBar_textSize,
-                mTextSize.toInt()
-            )
-                .toFloat()
-        mThickness = a.getDimensionPixelSize(
-            R.styleable.LinearVerticalProgressBar_thickness, mThickness.toInt()
-        ).toFloat()
-        mRadius = a.getDimensionPixelSize(
-            R.styleable.LinearVerticalProgressBar_radius, mRadius.toInt()
-        ).toFloat()
-        mDuration = a.getInt(R.styleable.LinearVerticalProgressBar_animationDuration, mDuration)
-        mTextVisibility =
-            a.getInt(R.styleable.LinearVerticalProgressBar_textVisibility, mTextVisibility)
-        mFontFamily = a.getResourceId(R.styleable.LinearVerticalProgressBar_font, 0)
-        mGradient = a.getBoolean(R.styleable.LinearVerticalProgressBar_gradient, false)
-        mGradientStartColor =
-            a.getColor(
-                R.styleable.LinearVerticalProgressBar_gradientStartColor,
-                mGradientStartColor
-            )
-        mGradientEndColor =
-            a.getColor(R.styleable.LinearVerticalProgressBar_gradientEndColor, mGradientEndColor)
-
-        a.recycle()
+    override fun callInit() {
+        super.callInit()
+        init()
     }
 
     private fun init() {
@@ -150,26 +52,6 @@ class LinearVerticalProgressBar : View {
             }
         }
 
-        paintBackground.apply {
-            color = mBackground
-            style = Paint.Style.FILL
-        }
-
-        textPaint.apply {
-            color = mTextColor
-            textSize = mTextSize
-            if (mFontFamily != 0) {
-                try {
-                    val tp = ResourcesCompat.getFont(context, mFontFamily)
-                    this.typeface = Typeface.create(tp, Typeface.NORMAL)
-                } catch (e: Exception) {
-                    Log.e("LinearVerticalProgressBar", e.message.toString())
-                    e.printStackTrace()
-                    throw e
-                }
-            }
-        }
-
         progressRect =
             RectF(0f, (mHeight - ((mProgress * mHeight) / 100f)), mThickness, mHeight.toFloat())
         backgroundRect = RectF(0f, 0f, mThickness, mHeight.toFloat())
@@ -177,8 +59,8 @@ class LinearVerticalProgressBar : View {
         setProgress(mProgress)
     }
 
-    fun setProgress(progress: Int) {
-        mProgress = progress
+    override fun setProgress(progress: Int) {
+        super.setProgress(progress)
         val to = (mHeight - ((mProgress * mHeight) / 100f))
         val animator = ValueAnimator.ofFloat(progressRect.bottom, to)
         animator.duration = mDuration.toLong()
@@ -192,73 +74,6 @@ class LinearVerticalProgressBar : View {
             invalidate()
         }
         animator.start()
-    }
-
-    fun setProgressBackgroundColor(color: Int) {
-        mBackground = color
-        init()
-    }
-
-    fun setProgressColor(color: Int) {
-        mProgressColor = color
-        init()
-    }
-
-    fun setTextColor(color: Int) {
-        mTextColor = color
-        init()
-    }
-
-    fun setAnimationDuration(duration: Int) {
-        mDuration = duration
-    }
-
-    fun setTextVisibility(visibility: Int) {
-        if (visibility in listOf(VISIBLE, INVISIBLE, GONE)) mTextVisibility = visibility
-    }
-
-    fun setFont(resourceId: Int) {
-        try {
-            ResourcesCompat.getFont(context, resourceId)
-            mFontFamily = resourceId
-            init()
-        } catch (e: Exception) {
-            Log.e("LinearVerticalProgressBar", e.message.toString())
-            e.printStackTrace()
-            throw e
-        }
-    }
-
-    fun getProgress(): Int {
-        return mProgress
-    }
-
-    fun getProgressBackgroundColor(): Int {
-        return mBackground
-    }
-
-    fun getProgressColor(): Int {
-        return mProgressColor
-    }
-
-    fun getTextColor(): Int {
-        return mTextColor
-    }
-
-    fun getThickness(): Float {
-        return mThickness
-    }
-
-    fun getRadius(): Float {
-        return mRadius
-    }
-
-    fun getAnimationDuration(): Int {
-        return mDuration
-    }
-
-    fun getTextVisibility(): Int {
-        return mTextVisibility
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -286,7 +101,7 @@ class LinearVerticalProgressBar : View {
             canvas.drawText(
                 text.toInt().toString(),
                 (backgroundRect.right.toInt()).toFloat() + textBound.right / 2f,
-                y.toFloat(),
+                y,
                 textPaint
             )
         }
