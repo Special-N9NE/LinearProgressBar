@@ -20,6 +20,8 @@ class LinearProgressBar : BaseProgressBar {
 
     private var mWidth = 0
 
+    constructor(context: Context) : super(context)
+
     @RequiresApi(Build.VERSION_CODES.O)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
@@ -71,7 +73,7 @@ class LinearProgressBar : BaseProgressBar {
             }
         }
 
-        progressRect = RectF(0f, 0f, (mProgress * mWidth) / 100f, mThickness)
+        progressRect = RectF(0f, 0f, (mProgress * 100f) / mWidth, mThickness)
         backgroundRect = RectF(0f, 0f, mWidth.toFloat(), mThickness)
 
         setProgress(mProgress)
